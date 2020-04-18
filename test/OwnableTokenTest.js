@@ -1,17 +1,17 @@
-const PAX = artifacts.require('PAXImplementationV2.sol');
+const GTS = artifacts.require('GTSImplementationV2.sol');
 const Proxy = artifacts.require('AdminUpgradeabilityProxy.sol');
 
 const assertRevert = require('./helpers/assertRevert');
 const {ZERO_ADDRESS} = require('@openzeppelin/test-helpers').constants;
 
-// Test that PAX operates correctly as an Ownable token.
+// Test that GTS operates correctly as an Ownable token.
 contract('Ownable PAX', function ([_, admin, anotherAccount, anotherAccount2, owner]) {
   beforeEach(async function () {
-    const pax = await PAX.new({from: owner});
-    const proxy = await Proxy.new(pax.address, {from: admin});
-    const proxiedPAX = await PAX.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
-    this.token = proxiedPAX;
+    const gts = await GTS.new({from: owner});
+    const proxy = await Proxy.new(gts.address, {from: admin});
+    const proxiedGTS = await GTS.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
+    this.token = proxiedGTS;
     this.pax = pax;
   });
 
