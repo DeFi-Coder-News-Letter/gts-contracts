@@ -1,17 +1,17 @@
-const PAXMock = artifacts.require('PAXWithBalance.sol');
+const GTSMock = artifacts.require('GTSWithBalance.sol');
 const Proxy = artifacts.require('AdminUpgradeabilityProxy.sol');
 
 const assertRevert = require('./helpers/assertRevert');
 
-// Test that PAX operates correctly as a Pausable token.
-contract('Pausable PAX', function ([_, admin, anotherAccount, owner]) {
+// Test that GTS operates correctly as a Pausable token.
+contract('Pausable GTS', function ([_, admin, anotherAccount, owner]) {
   beforeEach(async function () {
-    const pax = await PAXMock.new({from: owner});
-    const proxy = await Proxy.new(pax.address, {from: admin});
-    const proxiedPAX = await PAXMock.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
-    await proxiedPAX.initializeBalance(owner, 100);
-    this.token = proxiedPAX;
+    const gts = await GTSMock.new({from: owner});
+    const proxy = await Proxy.new(gts.address, {from: admin});
+    const proxiedGTS = await GTSMock.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
+    await proxiedGTS.initializeBalance(owner, 100);
+    this.token = proxiedGTS;
   });
 
   const amount = 10;
