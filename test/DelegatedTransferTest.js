@@ -1,30 +1,32 @@
 const ethSigUtil = require('eth-sig-util');
 const {ZERO_ADDRESS} = require('@openzeppelin/test-helpers').constants;
 
-const PAXMock = artifacts.require('PAXWithBalance.sol');
+const GTSMock = artifacts.require('GTSWithBalance.sol');
 const Proxy = artifacts.require('AdminUpgradeabilityProxy.sol');
 
 const assertRevert = require('./helpers/assertRevert');
 
 // private key for token from address
-const privateKey = new Buffer("43f2ee33c522046e80b67e96ceb84a05b60b9434b0ee2e3ae4b1311b9f5dcc46", 'hex');
+// const privateKey = new Buffer("43f2ee33c522046e80b67e96ceb84a05b60b9434b0ee2e3ae4b1311b9f5dcc46", 'hex');
+const privateKey = new Buffer("<privatekeyFortokenwallet", 'hex');
 // EIP-55 of ethereumjsUtil.bufferToHex(ethereumjsUtil.privateToAddress(privateKey));
-const fromAddress = '0xBd2e9CaF03B81e96eE27AD354c579E1310415F39';
+//const fromAddress = '0xBd2e9CaF03B81e96eE27AD354c579E1310415F39';
+const fromAddress = '0x<AddressOfTokenAddress>';
 
-// Test that PAX operates correctly as a token with BetaDelegatedTransfer.
-contract('BetaDelegatedTransfer PAX', function ([_, admin, owner, executor, recipient, whitelister, bystander]) {
+// Test that GTS operates correctly as a token with BetaDelegatedTransfer.
+contract('BetaDelegatedTransfer GTS', function ([_, admin, owner, executor, recipient, whitelister, bystander]) {
 
   const amount = 10;
   const feeAmount = 1;
 
   beforeEach(async function () {
-    const pax = await PAXMock.new({from: owner});
-    const proxy = await Proxy.new(pax.address, {from: admin});
-    const proxiedPAX = await PAXMock.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
-    await proxiedPAX.initializeDomainSeparator({from: owner});
-    await proxiedPAX.initializeBalance(owner, 100);
-    this.token = proxiedPAX;
+    const gts = await GTSMock.new({from: owner});
+    const proxy = await Proxy.new(gts.address, {from: admin});
+    const proxiedGTS = await GTSMock.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
+    await proxiedGTS.initializeDomainSeparator({from: owner});
+    await proxiedGTS.initializeBalance(owner, 100);
+    this.token = proxiedGTS;
   });
 
   describe('as a token with delegated transfer', function () {
@@ -45,7 +47,7 @@ contract('BetaDelegatedTransfer PAX', function ([_, admin, owner, executor, reci
         },
         primaryType: 'BetaDelegatedTransfer',
         domain: {
-          name: 'Paxos Standard',
+          name: 'Gold Trust Standard',
           verifyingContract: this.token.address,
         },
       };
