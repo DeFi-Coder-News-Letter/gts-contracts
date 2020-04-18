@@ -8,8 +8,8 @@ const {ZERO_ADDRESS} = require('@openzeppelin/test-helpers').constants;
 contract('GTS', function ([_, admin, assetProtectionRole, otherAddress, freezableAddress, owner]) {
 
   beforeEach(async function () {
-    const pax = await GTS.new({from: owner});
-    const proxy = await Proxy.new(pax.address, {from: admin});
+    const gts = await GTS.new({from: owner});
+    const proxy = await Proxy.new(gts.address, {from: admin});
     const proxiedGTS = await GTS.at(proxy.address);
     await proxiedGTS.initialize({from: owner});
     this.token = proxiedGTS;
