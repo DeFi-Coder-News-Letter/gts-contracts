@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-import "../../contracts/PAXImplementationV2.sol";
+import "../../contracts/GTSImplementationV2.sol";
 
 
-contract PAXWithBalance is PAXImplementationV2 {
+contract GTSWithBalance is GTSImplementationV2 {
 
     function initializeBalance(address initialAccount, uint initialBalance) public {
         balances[initialAccount] = initialBalance;
