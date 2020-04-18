@@ -6,9 +6,9 @@ import "./zeppelin/SafeMath.sol";
 
 
 /**
- * @title PAXImplementationV2
+ * @title GTSImplementationV2
  * @dev this contract is a Pausable ERC20 token with Burn and Mint
- * controlled by a central SupplyController. By implementing PaxosImplementation
+ * controlled by a central SupplyController. By implementing GTSosImplementation
  * this contract also includes external methods for setting
  * a new implementation contract for the Proxy.
  * NOTE: The storage defined here will actually be held in the Proxy
@@ -17,8 +17,8 @@ import "./zeppelin/SafeMath.sol";
  * Any call to transfer against this contract should fail
  * with insufficient funds since no tokens will be issued there.
  */
-contract PAXImplementationV2 {
-
+contract GTSImplementationV2 {
+GTS
     /**
      * MATH
      */
@@ -35,8 +35,8 @@ contract PAXImplementationV2 {
     // ERC20 BASIC DATA
     mapping(address => uint256) internal balances;
     uint256 internal totalSupply_;
-    string public constant name = "Paxos Standard"; // solium-disable-line
-    string public constant symbol = "PAX"; // solium-disable-line uppercase
+    string public constant name = "Gold Trust Standard"; // solium-disable-line
+    string public constant symbol = "GTS"; // solium-disable-line uppercase
     uint8 public constant decimals = 18; // solium-disable-line uppercase
 
     // ERC20 DATA
@@ -319,11 +319,11 @@ contract PAXImplementationV2 {
     }
 
     /**
-     * @dev Reclaim all PAX at the contract address.
-     * This sends the PAX tokens that this contract add holding to the owner.
-     * Note: this is not affected by freeze constraints.
+     * @dev Reclaim all GTS at the contract address.
+     * This sends the GTS tokens that this contract add holding to the owner.
+GTS     * Note: this is not affected by freeze constraints.
      */
-    function reclaimPAX() external onlyOwner {
+    function reclaimGTS() external onlyOwner {
         uint256 _balance = balances[this];
         balances[this] = 0;
         balances[owner] = balances[owner].add(_balance);
