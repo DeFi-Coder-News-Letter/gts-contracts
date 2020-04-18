@@ -1,13 +1,13 @@
 const {Contracts, getStorageLayout, compareStorageLayouts} = require('@openzeppelin/upgrades');
 
-const ImplV1Contract = Contracts.getFromLocal('PAXImplementation');
-const ImplV2Contract = Contracts.getFromLocal('PAXImplementationV2');
+const ImplV1Contract = Contracts.getFromLocal('GTSImplementation');
+const ImplV2Contract = Contracts.getFromLocal('GTSImplementationV2');
 const Proxy = artifacts.require('AdminUpgradeabilityProxy.sol');
-const ImplV1 = artifacts.require('PAXImplementation.sol');
-let ImplV2 = artifacts.require('PAXImplementationV2.sol');
+const ImplV1 = artifacts.require('GTSImplementation.sol');
+let ImplV2 = artifacts.require('GTSImplementationV2.sol');
 
 //// For funsies! Uncomment this line and see that it fails because the memory layout is different
-//// Note that the only difference from PAXImplementationV2 is that the new memory is declared first
+//// Note that the only difference from GTSImplementationV2 is that the new memory is declared first
 //// A quicker test command is `truffle test ./test/UpgradeToV2Test.js ./test/mocks/BadV2UpgradeExample.sol`
 ////   0 passing (6s)
 ////   4 failing
@@ -30,8 +30,8 @@ const assertRevert = require('./helpers/assertRevert');
  // ERC20 BASIC DATA
  mapping(address => uint256) internal balances;
  uint256 internal totalSupply_;
- string public constant name = "PAX"; // solium-disable-line uppercase
- string public constant symbol = "PAX"; // solium-disable-line uppercase
+ string public constant name = "GTS"; // solium-disable-line uppercase
+ string public constant symbol = "GTS"; // solium-disable-line uppercase
  uint8 public constant decimals = 18; // solium-disable-line uppercase
 
  // ERC20 DATA
@@ -51,8 +51,8 @@ const assertRevert = require('./helpers/assertRevert');
  address public supplyController;
  */
 
-// Test that PAX operates correctly as a token with DelegatedTransfer.
-contract('UpgradeToV2 PAX', function (
+// Test that GTS operates correctly as a token with DelegatedTransfer.
+contract('UpgradeToV2 GTS', function (
   [_, admin, owner, supplyController, assetProtection, recipient, purchaser, holder, bystander, frozen]
 ) {
 
@@ -89,9 +89,9 @@ contract('UpgradeToV2 PAX', function (
     };
 
     this.upgrade = async function () {
-      this.paxV2 = await ImplV2.new({from: owner});
+      this.gtsV2 = await ImplV2.new({from: owner});
       const funcSig = web3.eth.abi.encodeFunctionSignature('initializeDomainSeparator()'); // 0x2ff79161
-      await this.proxy.upgradeToAndCall(this.paxV2.address, funcSig, {from: admin});
+      await this.proxy.upgradeToAndCall(this.gtsV2.address, funcSig, {from: admin});
     };
 
     this.checkData = async function () {
@@ -111,11 +111,11 @@ contract('UpgradeToV2 PAX', function (
     };
 
     // deploy the contracts
-    const paxV1 = await ImplV1.new({from: owner});
-    const proxy = await Proxy.new(paxV1.address, {from: admin});
-    const proxiedPAX = await ImplV1.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
-    this.token = proxiedPAX;
+    const gtsV1 = await ImplV1.new({from: owner});
+    const proxy = await Proxy.new(gtsV1.address, {from: admin});
+    const proxiedGTS = await ImplV1.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
+    this.token = proxiedGTS;
     this.newToken = await ImplV2.at(proxy.address);
     this.proxy = proxy;
 
@@ -171,16 +171,16 @@ contract('UpgradeToV2 PAX', function (
 
   it('gives the same result as if we upgraded first', async function () {
     // deploy new contracts
-    const paxV1 = await ImplV1.new({from: owner});
-    const proxy = await Proxy.new(paxV1.address, {from: admin});
-    const proxiedPAX = await ImplV1.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
+    const gtsV1 = await ImplV1.new({from: owner});
+    const proxy = await Proxy.new(gtsV1.address, {from: admin});
+    const proxiedGTS = await ImplV1.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
 
     // make sure these are new contracts
-    assert.notStrictEqual(this.token.address, proxiedPAX.address);
+    assert.notStrictEqual(this.token.address, proxiedGTS.address);
     assert.notStrictEqual(this.proxy.address, proxy.address);
-    this.token = proxiedPAX;
-    this.newToken = await ImplV2.at(proxiedPAX.address);
+    this.token = proxiedGTS;
+    this.newToken = await ImplV2.at(proxiedGTS.address);
     this.proxy = proxy;
 
     await this.upgrade();
@@ -218,19 +218,19 @@ contract('UpgradeToV2 PAX', function (
           "action": "rename",
           "original": {
             "astId": 1662,
-            "contract": "PAXImplementation",
+            "contract": "GTSImplementation",
             "index": 6,
             "label": "lawEnforcementRole",
-            "path": "contracts/archive/PAXImplementationV1.sol",
+            "path": "contracts/archive/GTSImplementationV1.sol",
             "src": "2107:33:2",
             "type": "t_address",
           },
           "updated": {
             "astId": 71,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 6,
             "label": "assetProtectionRole",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "1474:34:1",
             "type": "t_address",
           }
@@ -239,10 +239,10 @@ contract('UpgradeToV2 PAX', function (
           "action": "append",
           "updated": {
             "astId": 79,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 9,
             "label": "proposedOwner",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "1651:28:1",
             "type": "t_address"
           }
@@ -251,10 +251,10 @@ contract('UpgradeToV2 PAX', function (
           "action": "append",
           "updated": {
             "astId": 81,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 10,
             "label": "betaDelegateWhitelister",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "1717:38:1",
             "type": "t_address"
           }
@@ -263,10 +263,10 @@ contract('UpgradeToV2 PAX', function (
           "action": "append",
           "updated": {
             "astId": 85,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 11,
             "label": "betaDelegateWhitelist",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "1761:55:1",
             "type": "t_mapping<t_bool>"
           }
@@ -275,10 +275,10 @@ contract('UpgradeToV2 PAX', function (
           "action": "append",
           "updated": {
             "astId": 89,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 12,
             "label": "nextSeqs",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "1822:45:1",
             "type": "t_mapping<t_uint256>"
           }
@@ -287,10 +287,10 @@ contract('UpgradeToV2 PAX', function (
           "action": "append",
           "updated": {
             "astId": 104,
-            "contract": "PAXImplementationV2",
+            "contract": "GTSImplementationV2",
             "index": 13,
             "label": "EIP712_DOMAIN_HASH",
-            "path": "contracts/PAXImplementationV2.sol",
+            "path": "contracts/GTSImplementationV2.sol",
             "src": "2454:33:1",
             "type": "t_bytes32"
           }
