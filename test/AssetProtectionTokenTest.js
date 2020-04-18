@@ -1,18 +1,18 @@
-const PAX = artifacts.require('PAXImplementationV2.sol');
+const GTS = artifacts.require('GTSImplementationV2.sol');
 const Proxy = artifacts.require('AdminUpgradeabilityProxy.sol');
 
 const assertRevert = require('./helpers/assertRevert');
 const {ZERO_ADDRESS} = require('@openzeppelin/test-helpers').constants;
 
-// Tests that PAX Asset Protection capabilities function correctly.
-contract('PAX', function ([_, admin, assetProtectionRole, otherAddress, freezableAddress, owner]) {
+// Tests that GTS Asset Protection capabilities function correctly.
+contract('GTS', function ([_, admin, assetProtectionRole, otherAddress, freezableAddress, owner]) {
 
   beforeEach(async function () {
-    const pax = await PAX.new({from: owner});
+    const pax = await GTS.new({from: owner});
     const proxy = await Proxy.new(pax.address, {from: admin});
-    const proxiedPAX = await PAX.at(proxy.address);
-    await proxiedPAX.initialize({from: owner});
-    this.token = proxiedPAX;
+    const proxiedGTS = await GTS.at(proxy.address);
+    await proxiedGTS.initialize({from: owner});
+    this.token = proxiedGTS;
   });
 
   describe('when the asset protection role is unset', function () {
