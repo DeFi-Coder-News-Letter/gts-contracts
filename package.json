@@ -1,17 +1,17 @@
 {
-  "name": "pax",
+  "name": "gts",
   "version": "0.0.1",
-  "description": "Paxos-issued USD-collateralized ERC20 stablecoin",
+  "description": "Gold Trust Standard-issued USD-collateralized ERC20 stablecoin",
   "main": "truffle.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "truffle-abi": "cat build/contracts/PAXImplementationV2.json | jq -c .abi > PAX.abi",
-    "truffle-bin": "cat build/contracts/PAXImplementationV2.json | jq  -r .bytecode > PAX.bin",
+    "truffle-abi": "cat build/contracts/GTSImplementationV2.json | jq -c .abi > GTS.abi",
+    "truffle-bin": "cat build/contracts/GTSImplementationV2.json | jq  -r .bytecode > GTS.bin",
     "compile": "truffle compile",
     "coverage": "solidity-coverage",
-    "flatten-impl": "truffle-flattener ./contracts/PAXImplementationV2.sol > ./flattened/PAXImplementationV2.sol",
+    "flatten-impl": "truffle-flattener ./contracts/GTSImplementationV2.sol > ./flattened/GTSImplementationV2.sol",
     "flatten-proxy": "truffle-flattener ./contracts/zeppelin/AdminUpgradeabilityProxy.sol > ./flattened/AdminUpgradeabilityProxy.sol",
     "ganache": "ganache-cli",
     "migrate": "truffle migrate",
@@ -20,14 +20,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/paxosglobal/pax-contracts.git"
+    "url": "git+https://github.com/DeFi-Coder-News-Letter/gts-contracts.git"
   },
-  "author": "PAXOS",
+  "author": "GTSOS",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/paxosglobal/pax-contracts/issues"
+    "url": "https://github.com/DeFi-Coder-News-Letter/gts-contracts/issues"
   },
-  "homepage": "https://github.com/paxosglobal/pax-contracts#readme",
+  "homepage": "https://github.com/DeFi-Coder-News-Letter/gts-contracts#readme",
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
